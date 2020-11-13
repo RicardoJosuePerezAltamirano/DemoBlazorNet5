@@ -13,22 +13,28 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  project: 'BlazorNetConfPuebla/Server/BlazorNetConfPuebla.Server.csproj'
 
 steps:
-- task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
+- task: DotNetCoreInstaller@0
+  displayName: "Instalando netCore SDK"
   inputs:
-    restoreSolution: '$(solution)'
+    version: 5.0.100
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
+  displayName: "Compilando los proyectos"
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+   command: build
+   projects: $(project)
+   configuration: $(buildConfiguration)
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'publicando'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+   command: publish
+   publishWebProjects: false
+   projects: $(project)
+   arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+   zipAfterPublish: false
+   modifyOutputPath: false
