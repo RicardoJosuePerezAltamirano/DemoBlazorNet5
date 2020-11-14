@@ -1,5 +1,7 @@
 ﻿using BlazorNetConfPuebla.Shared;
+using BlazorNetConfPuebla.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,10 +20,12 @@ namespace BlazorNetConfPuebla.Server.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        Context dbContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,Context context)
         {
             _logger = logger;
+            dbContext = context;
         }
 
         [HttpGet]
@@ -35,6 +39,18 @@ namespace BlazorNetConfPuebla.Server.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [HttpGet("Add")]
+        public async Task<Registros> Add(string toAdd)
+        {
+            var a = await dbContext.AddAsync<Registros>(new Registros { Nombre = toAdd });
+            await dbContext.SaveChangesAsync();
+            return a.Entity;
+        }
+        [HttpGet("GetRegistros")]
+        public async Task<List<Registros>> GetRegistros()
+        {
+            return await dbContext.Registros.ToListAsync();
         }
     }
 }
