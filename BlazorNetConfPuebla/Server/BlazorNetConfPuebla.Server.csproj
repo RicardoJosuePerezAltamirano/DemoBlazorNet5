@@ -18,5 +18,11 @@
     <ProjectReference Include="..\Shared\BlazorNetConfPuebla.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="local.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
