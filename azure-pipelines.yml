@@ -1,0 +1,43 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  project: 'BlazorNetConfPuebla/Server/BlazorNetConfPuebla.Server.csproj'
+
+steps:
+
+- task: DotNetCoreInstaller@0
+  displayName: "Instalando netCore SDK"
+  inputs:
+    version: 5.0.100
+
+- task: DotNetCoreCLI@2
+  displayName: "Compilando los proyectos"
+  inputs:
+   command: build
+   projects: $(project)
+   configuration: $(buildConfiguration)
+
+- task: DotNetCoreCLI@2
+  displayName: 'publicando'
+  inputs:
+   command: publish
+   publishWebProjects: false
+   projects: $(project)
+   arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+   zipAfterPublish: false
+   modifyOutputPath: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'alistando para publicacion'
