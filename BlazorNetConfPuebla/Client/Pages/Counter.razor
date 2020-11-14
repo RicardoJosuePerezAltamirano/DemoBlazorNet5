@@ -20,7 +20,7 @@
     private int currentCount = 0;
         protected override async Task OnInitializedAsync()
         {
-            Registros = await Client.GetFromJsonAsync<List<Registros>>("WeatherForecast/GetRegistros");
+            Registros = await Client.GetFromJsonAsync<List<Registros>>("api/Registros/GetRegistros");
         }
 
         private async void IncrementCount()
