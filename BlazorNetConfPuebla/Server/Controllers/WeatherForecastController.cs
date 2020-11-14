@@ -20,12 +20,12 @@ namespace BlazorNetConfPuebla.Server.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        Context dbContext;
+        
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger,Context context)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            dbContext = context;
+            
         }
 
         [HttpGet]
