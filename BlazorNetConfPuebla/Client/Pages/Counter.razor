@@ -1,18 +1,10 @@
 ﻿@page "/counter"
-@inject HttpClient Client 
+
 
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
-@if(Registros!=null)
-{
-<ul>
-    @foreach(var r in Registros)
-    {
-    <li>@r.Nombre</li>
-    }
-</ul>
-}
+
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
@@ -20,7 +12,7 @@
     private int currentCount = 0;
         protected override async Task OnInitializedAsync()
         {
-            Registros = await Client.GetFromJsonAsync<List<Registros>>("api/Registros/GetRegistros");
+            
         }
 
         private async void IncrementCount()
@@ -28,5 +20,5 @@
         currentCount++;
         
     }
-    List<Registros> Registros;
+   
 }

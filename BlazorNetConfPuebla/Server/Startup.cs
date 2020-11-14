@@ -25,7 +25,7 @@ namespace BlazorNetConfPuebla.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddDbContext<Context>();
+            //services.AddDbContext<Context>();
                 
         }
 
