@@ -40,10 +40,10 @@ namespace BlazorNetConfPuebla.Server.Controllers
             })
             .ToArray();
         }
-        [HttpGet("Add/{toAdd}")]
-        public async Task<Registros> Add(string toAdd)
+        [HttpPost("Add")]
+        public async Task<Registros> Add(Registros toAdd)
         {
-            var a = await dbContext.AddAsync<Registros>(new Registros { Nombre = toAdd });
+            var a = await dbContext.AddAsync<Registros>(toAdd);
             await dbContext.SaveChangesAsync();
             return a.Entity;
         }
